@@ -1,0 +1,236 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Zoo Website</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css">
+    <!-- Include Vue 3 CDN -->
+    <script src="https://cdn.jsdelivr.net/npm/vue@3.0.11/dist/vue.global.js"></script>
+    <style>
+        /* Global Styles */
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f2f2f2;
+            margin: 0;
+            padding: 0;
+        }
+
+        /* Header Styles */
+        header {
+            background-color: #ff9900;
+            color: white;
+            text-align: center;
+            padding: 20px 0;
+        }
+
+        header h1 {
+            font-size: 36px;
+            margin: 0;
+        }
+
+        header p {
+            font-size: 18px;
+        }
+
+        /* Navigation Styles */
+        nav {
+            background-color: #feb236;
+            text-align: center;
+            padding: 10px 0;
+        }
+
+        nav ul {
+            list-style: none;
+            margin: 0;
+            padding: 0;
+        }
+
+        nav ul li {
+            display: inline-block;
+            margin-right: 20px;
+        }
+
+        nav ul li a {
+            text-decoration: none;
+            color: #fff;
+            font-weight: bold;
+            font-size: 16px;
+            transition: color 0.3s;
+        }
+
+        /* Add new styles for icons */
+        nav ul li a i {
+            margin-right: 5px;
+        }
+
+        /* Section Styles */
+        section {
+            padding: 20px;
+        }
+
+        /* Animal List Styles */
+        .animal-list {
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: center;
+        }
+
+        .animal-item {
+            text-align: center;
+            margin: 10px;
+            background-color: #fff;
+            border-radius: 5px;
+            box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.2);
+            padding: 15px;
+        }
+
+        .animal-item img {
+            max-width: 100%;
+            height: auto;
+            border-radius: 5px;
+        }
+
+        .animal-item p {
+            font-weight: bold;
+            margin-top: 10px;
+        }
+
+        /* Footer Styles */
+        footer {
+            background-color: #2a9d8f;
+            color: #fff;
+            text-align: center;
+            padding: 20px 0;
+        }
+
+        /* Additional Styles for Demonstrating Concepts */
+        .highlight {
+            background-color: yellow;
+        }
+    </style>
+</head>
+<body>
+    <div id="app">
+        <header>
+            <h1>{{ zooName }}</h1>
+            <p>Welcome to our Zoo!</p>
+        </header>
+
+        <nav>
+            <ul>
+                <li><a href="#home"><i class="fas fa-home"></i> Home</a></li>
+                <li><a href="#animals"><i class="fas fa-paw"></i> Animals</a></li>
+                <li><a href="#tickets"><i class="fas fa-ticket-alt"></i> Tickets</a></li>
+                <li><a href="#contact"><i class="fas fa-envelope"></i> Contact</a></li>
+            </ul>
+        </nav>
+
+        <section id="home">
+            <h2>Welcome to our Zoo!</h2>
+            <p>Explore the amazing world of wildlife in our zoo. Our zoo is home to a diverse range of animals from all over the world. Come and experience the wonder of nature up close!</p>
+        </section>
+
+        <section id="animals">
+            <h2>Animals</h2>
+            <div class="animal-list">
+                <!-- 6a. List Rendering with v-for -->
+                <!-- 6e. v-for with a Component -->
+                <div class="animal-item" v-for="(animal, index) in animals" :key="index">
+                    <!-- 1a. Text Interpolation -->
+                    <!-- 1c. Attribute Bindings [v-bind:id] -->
+                    <img :src="animal.imageUrl" :alt="animal.name">
+                    <!-- 1a. Text Interpolation -->
+                    <p>{{ animal.name }}</p>
+                </div>
+            </div>
+        </section>
+
+        <section id="tickets">
+            <h2>Tickets</h2>
+            <div>
+                <!-- 1c. Attribute Bindings [v-bind:id] -->
+                <p v-bind:id="ticketInfo.id">{{ ticketInfo.text }}</p>
+            </div>
+        </section>
+
+        <section id="contact">
+            <h2>Contact Us</h2>
+            <div>
+                <!-- 1a. Text Interpolation -->
+                <p>{{ contactInfo }}</p>
+            </div>
+        </section>
+
+        <section>
+            <h2>Methods</h2>
+            <button @click="showAlert">Click Me!</button>
+        </section>
+
+        <section>
+            <h2>Reactivity Fundamentals</h2>
+            <p>Current Year: {{ currentYear }}</p>
+        </section>
+
+        <section>
+            <h2>Computed Properties</h2>
+            <p>Double Current Year: {{ doubleCurrentYear }}</p>
+        </section>
+
+        <section>
+            <h2>Class and Style Bindings</h2>
+            <div :class="{ 'highlight': isHighlighted }" :style="{ 'font-weight': isBold ? 'bold' : 'normal' }">
+                Dynamic Class and Style Binding
+            </div>
+        </section>
+
+        <footer>
+            <!-- 1a. Text Interpolation -->
+            <!-- 1d. JavaScript expressions inside syntax i.e.{{ }} -->
+            <p>&copy; {{ currentYear }} {{ zooName }}</p>
+        </footer>
+    </div>
+
+    <script>
+        const app = Vue.createApp({
+            data() {
+                return {
+                    zooName: 'Zoo',
+                    animals: [
+                        { name: 'Lion', imageUrl: 'https://d3qvqlc701gzhm.cloudfront.net/full/e6970b68d54b1edd6aa6c696fe0e7b8dffff56936ce7fd3204e1a55590dfcd07.jpg' },
+                        { name: 'Tiger', imageUrl: 'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQMZYUf0AuI34kPIRPzWI33XZtOjFU3OIZ79Q&usqp=CAU' },
+                        { name: 'Giraffe', imageUrl: 'https://www.centralfloridazoo.org/wp-content/uploads/2017/04/ANIMALS-shutterstock_382892662.jpg' },
+                        { name: 'Bear', imageUrl: 'https://files.worldwildlife.org/wwfcmsprod/images/Brown_Bear_/hero_small/7h2u6tj3h3_brownbear_hero.jpg' },
+                        { name: 'Monkey', imageUrl: 'https://discovery.sndimg.com/content/dam/images/discovery/fullset/2021/4/30/GettyImages-1189192456.jpg.rend.hgtvcom.1280.960.suffix/1619849704543.jpeg' }
+                    ],
+                    ticketInfo: {
+                        id: 'ticket-info',
+                        text: 'Ticket prices start from $20 AUD.'
+                    },
+                    contactInfo: 'Contact us at contact@zoo.com',
+                    isHighlighted: true, // For class binding
+                    isBold: true, // For style binding
+                };
+            },
+            computed: {
+                // 4. Computed Properties
+                currentYear() {
+                    return new Date().getFullYear();
+                },
+                doubleCurrentYear() {
+                    return this.currentYear * 2;
+                },
+            },
+            methods: {
+                // 2. Methods
+                // 7. Event Handling: Listening to Events [v-on:click]
+                showAlert() {
+                    alert('Method invoked via button click!');
+                },
+            },
+        });
+
+        app.mount('#app');
+    </script>
+</body>
+</html>
